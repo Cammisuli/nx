@@ -16,6 +16,7 @@ import {
   vitestVersion,
   viteTsConfigPathsVersion,
   jsdomVersion,
+  coverageC8Version,
 } from '../../utils/versions';
 import { Schema } from './schema';
 
@@ -34,6 +35,7 @@ function checkDependenciesInstalled(host: Tree, schema: Schema) {
   devDependencies['vitest'] = vitestVersion;
   devDependencies['@vitest/ui'] = vitestUiVersion;
   devDependencies['jsdom'] = jsdomVersion;
+  devDependencies['@vitest/coverage-c8'] = coverageC8Version;
 
   if (schema.uiFramework === 'react') {
     devDependencies['@vitejs/plugin-react'] = vitePluginReactVersion;

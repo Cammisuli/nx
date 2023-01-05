@@ -1,4 +1,4 @@
-import {hash, sum} from '../index';
+import { hash, sum } from '../index';
 
 describe('core', () => {
   it('should hash', () => {
@@ -6,6 +6,6 @@ describe('core', () => {
   });
 
   it('should sum', () => {
-    expect(sum(1, 2)).toBe(3)
-  })
+    expect(sum(1, 2)).toBe(3);
+  });
 });

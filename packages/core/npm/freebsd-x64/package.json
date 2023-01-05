@@ -1,0 +1,17 @@
+{
+  "name": "core-freebsd-x64",
+  "version": "0.0.0",
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "core.freebsd-x64.node",
+  "files": [
+    "core.freebsd-x64.node"
+  ],
+  "engines": {
+    "node": ">= 10"
+  }
+}

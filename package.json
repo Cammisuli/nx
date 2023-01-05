@@ -45,6 +45,8 @@
     "@cypress/react": "^6.0.0",
     "@cypress/webpack-preprocessor": "^5.12.0",
     "@floating-ui/react-dom": "^1.0.1",
+    "@monodon/rust": "0.4.0",
+    "@napi-rs/cli": "2.14.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
@@ -325,4 +327,3 @@
     ]
   }
 }
-

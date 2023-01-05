@@ -17,18 +17,7 @@
         }
       }
     },
-    "test": {
-      "executor": "@monodon/rust:test",
-      "outputs": ["{options.target-dir}"],
-      "options": {
-        "target-dir": "dist/target/core"
-      },
-      "configurations": {
-        "production": {
-          "release": true
-        }
-      }
-    },
+    "test": {},
     "lint": {
       "executor": "@monodon/rust:lint",
       "outputs": ["{options.target-dir}"],

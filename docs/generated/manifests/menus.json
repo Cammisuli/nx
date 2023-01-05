@@ -3780,6 +3780,14 @@
         "disableCollapsible": false
       },
       {
+        "id": "core",
+        "path": "/packages/core",
+        "name": "core",
+        "children": [],
+        "isExternal": false,
+        "disableCollapsible": false
+      },
+      {
         "id": "cra-to-nx",
         "path": "/packages/cra-to-nx",
         "name": "cra-to-nx",

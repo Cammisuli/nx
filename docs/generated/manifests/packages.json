@@ -417,6 +417,17 @@
     },
     "path": "/packages/angular"
   },
+  "core": {
+    "githubRoot": "https://github.com/nrwl/nx/blob/master",
+    "name": "core",
+    "packageName": "core",
+    "documents": {},
+    "root": "/packages/core",
+    "source": "/packages/core/src",
+    "executors": {},
+    "generators": {},
+    "path": "/packages/core"
+  },
   "cra-to-nx": {
     "githubRoot": "https://github.com/nrwl/nx/blob/master",
     "name": "cra-to-nx",

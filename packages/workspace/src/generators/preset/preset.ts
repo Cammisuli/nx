@@ -53,7 +53,7 @@ async function createPreset(tree: Tree, options: Schema) {
       name: options.name,
       style: options.style,
       linter: options.linter,
-      bundler: 'webpack',
+      bundler: options.bundler ?? 'webpack',
     });
   } else if (options.preset === Preset.ReactStandalone) {
     const {
@@ -67,7 +67,7 @@ async function createPreset(tree: Tree, options: Schema) {
       rootProject: true,
       bundler: options.bundler ?? 'vite',
       e2eTestRunner: 'cypress',
-      unitTestRunner: 'vitest',
+      unitTestRunner: options.bundler === 'vite' ? 'vitest' : 'jest',
     });
   } else if (options.preset === Preset.NextJs) {
     const { applicationGenerator: nextApplicationGenerator } = require('@nrwl' +
@@ -134,6 +134,7 @@ async function createPreset(tree: Tree, options: Schema) {
       linter: options.linter,
       standaloneConfig: options.standaloneConfig,
       framework: options.framework,
+      docker: options.docker,
       rootProject: true,
     });
   } else {

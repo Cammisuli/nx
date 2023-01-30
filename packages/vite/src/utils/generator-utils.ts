@@ -362,6 +362,24 @@ export function editTsConfig(tree: Tree, options: Schema) {
   writeJson(tree, `${projectConfig.root}/tsconfig.json`, config);
 }
 
+export function deleteWebpackConfig(
+  tree: Tree,
+  projectRoot: string,
+  webpackConfigFilePath?: string
+) {
+  const webpackConfigPath =
+    webpackConfigFilePath && tree.exists(webpackConfigFilePath)
+      ? webpackConfigFilePath
+      : tree.exists(`${projectRoot}/webpack.config.js`)
+      ? `${projectRoot}/webpack.config.js`
+      : tree.exists(`${projectRoot}/webpack.config.ts`)
+      ? `${projectRoot}/webpack.config.ts`
+      : null;
+  if (webpackConfigPath) {
+    tree.delete(webpackConfigPath);
+  }
+}
+
 export function moveAndEditIndexHtml(
   tree: Tree,
   options: Schema,
@@ -372,12 +390,15 @@ export function moveAndEditIndexHtml(
   let indexHtmlPath =
     projectConfig.targets[buildTarget].options?.index ??
     `${projectConfig.root}/src/index.html`;
-  const mainPath = (
+  let mainPath =
     projectConfig.targets[buildTarget].options?.main ??
     `${projectConfig.root}/src/main.ts${
       options.uiFramework === 'react' ? 'x' : ''
-    }`
-  ).replace(projectConfig.root, '');
+    }`;
+
+  if (projectConfig.root !== '.') {
+    mainPath = mainPath.replace(projectConfig.root, '');
+  }
 
   if (
     !tree.exists(indexHtmlPath) &&

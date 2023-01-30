@@ -1836,6 +1836,17 @@
         "path": "/packages/nx/documents/watch",
         "tags": ["workspace-watching"],
         "originalFilePath": "generated/cli/watch"
+      },
+      "/packages/nx/documents/show": {
+        "id": "show",
+        "name": "show",
+        "description": "The core Nx plugin contains the core functionality of Nx like the project graph, nx commands and task orchestration.",
+        "file": "generated/packages/nx/documents/show",
+        "itemList": [],
+        "isExternal": false,
+        "path": "/packages/nx/documents/show",
+        "tags": [],
+        "originalFilePath": "generated/cli/show"
       }
     },
     "root": "/packages/nx",
@@ -2802,7 +2813,30 @@
     "name": "webpack",
     "packageName": "@nrwl/webpack",
     "description": "The Nx Plugin for Webpack contains executors and generators that support building applications using Webpack.",
-    "documents": {},
+    "documents": {
+      "/packages/webpack/documents/webpack-config-setup": {
+        "id": "webpack-config-setup",
+        "name": "Configure webpack on your Nx workspace",
+        "description": "Configure webpack on your Nx workspace",
+        "file": "generated/packages/webpack/documents/webpack-config-setup",
+        "itemList": [],
+        "isExternal": false,
+        "path": "/packages/webpack/documents/webpack-config-setup",
+        "tags": [],
+        "originalFilePath": "shared/packages/webpack/webpack-config-setup"
+      },
+      "/packages/webpack/documents/webpack-plugins": {
+        "id": "webpack-plugins",
+        "name": "Webpack plugins",
+        "description": "Webpack plugins",
+        "file": "generated/packages/webpack/documents/webpack-plugins",
+        "itemList": [],
+        "isExternal": false,
+        "path": "/packages/webpack/documents/webpack-plugins",
+        "tags": [],
+        "originalFilePath": "shared/packages/webpack/webpack-plugins"
+      }
+    },
     "root": "/packages/webpack",
     "source": "/packages/webpack/src",
     "executors": {
@@ -2980,13 +3014,13 @@
         "path": "/packages/workspace/generators/run-commands",
         "type": "generator"
       },
-      "/packages/workspace/generators/convert-to-nx-project": {
-        "description": "Moves a project's configuration outside of `workspace.json`.",
-        "file": "generated/packages/workspace/generators/convert-to-nx-project.json",
+      "/packages/workspace/generators/fix-configuration": {
+        "description": "Fixes projects configuration",
+        "file": "generated/packages/workspace/generators/fix-configuration.json",
         "hidden": false,
-        "name": "convert-to-nx-project",
+        "name": "fix-configuration",
         "originalFilePath": "/packages/workspace/src/generators/convert-to-nx-project/schema.json",
-        "path": "/packages/workspace/generators/convert-to-nx-project",
+        "path": "/packages/workspace/generators/fix-configuration",
         "type": "generator"
       },
       "/packages/workspace/generators/npm-package": {

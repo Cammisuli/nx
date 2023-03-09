@@ -1,10 +1,12 @@
-import { hashFile } from '../index';
+import { hashFile, compress, decompress } from '../index';
 
 import { tmpdir } from 'os';
 import { mkdtemp, writeFile } from 'fs-extra';
 import { join } from 'path';
+import { deserialize, serialize } from 'v8';
+import { PerformanceObserver } from 'perf_hooks';
 
-describe('native', () => {
+describe('hasher', () => {
   it('should hash', async () => {
     expect(hashFile).toBeDefined();
 
@@ -14,9 +16,80 @@ describe('native', () => {
 
     expect(hashFile(tempFilePath).hash).toBe('6193209363630369380');
   });
+});
 
-  it('should create an instance of NativeHasher', () => {
-    // const nativeHasher = new NativeFileHasher('/root');
-    // expect(nativeHasher instanceof NativeFileHasher).toBe(true);
+describe('binary', () => {
+  it('compression', (done) => {
+    function perfObserver(list, observer) {
+      list.getEntries().forEach((entry) => {
+        if (entry.entryType === 'measure') {
+          console.log(`${entry.name}'s duration: ${entry.duration}`);
+        }
+      });
+      done();
+    }
+
+    const obj = {
+      node: {
+        obj: {
+          temp: '2',
+        },
+      },
+    };
+
+    const observer = new PerformanceObserver(perfObserver);
+    observer.observe({ entryTypes: ['measure', 'mark'] });
+   
+
+    performance.mark('flow-start');
+    const stringify = JSON.stringify(obj);
+
+    console.log("string length", stringify.length);
+
+    performance.mark('compression-start');
+    const compressed = compress(JSON.stringify(obj));
+    performance.mark('compression-finished');
+    performance.measure(
+      'compression',
+      'compression-start',
+      'compression-finished'
+    );
+    console.log("compression length", compressed.length)
+
+    performance.mark('decompress-start');
+    const decompressed = decompress(compressed, stringify.length);
+    performance.mark('decompress-finished');
+    performance.measure(
+      'decompress',
+      'decompress-start',
+      'decompress-finished'
+    );
+
+    performance.mark('deserialized-start');
+    const deserialized = JSON.parse(decompressed.toString());
+    performance.mark('deserialized-finished');
+    performance.measure(
+      'deserialized',
+      'deserialized-start',
+      'deserialized-finished'
+    );
+
+    performance.mark('flow-end');
+    performance.measure('flow', 'flow-start', 'flow-end');
+
+    // performance.mark('stringify-start');
+    // const stringify = JSON.stringify(obj);
+    // performance.mark('stringify-finished');
+    // performance.measure('stringify', 'stringify-start', 'stringify-finished');
+
+    expect(deserialized).toMatchInlineSnapshot(`
+      Object {
+        "node": Object {
+          "obj": Object {
+            "temp": "2",
+          },
+        },
+      }
+      `);
   });
 });

@@ -3,6 +3,8 @@ import type { Server, Socket } from 'net';
 import { serverLogger } from './logger';
 import { serializeResult } from '../socket-utils';
 import type { AsyncSubscription } from '@parcel/watcher';
+import { serialize } from 'v8';
+import { compress } from '../../native';
 
 export const SERVER_INACTIVITY_TIMEOUT_MS = 10800000 as const; // 10800000 ms = 3 hours
 
@@ -72,7 +74,29 @@ export function respondToClient(
     if (description) {
       serverLogger.requestLog(`Responding to the client.`, description);
     }
-    socket.write(`${response}${String.fromCodePoint(4)}`, (err) => {
+
+    if (!response) {
+      return res(null);
+    }
+
+    let socketWrite: string | Buffer;
+    if (process.env.NX_NATIVE == 'false') {
+      socketWrite = `${response}${String.fromCodePoint(4)}`;
+    } else {
+      performance.mark('serialize-start');
+      const compressed = compress(response);
+      performance.mark('serialize-end');
+      performance.measure('serialize', 'serialize-start', 'serialize-end');
+
+      // We include the size of the serialized data so that we can decompress it later
+      socketWrite = Buffer.concat([
+        Buffer.from(`${response.length}\r`),
+        compressed,
+        Buffer.from('\r\n'),
+      ]);
+    }
+
+    socket.write(socketWrite, (err) => {
       if (err) {
         console.error(err);
       }

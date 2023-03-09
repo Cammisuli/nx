@@ -24,6 +24,8 @@ import { readNxJson } from '../../config/configuration';
 import { PromisedBasedQueue } from '../../utils/promised-based-queue';
 import { Workspaces } from '../../config/workspaces';
 import { Message, SocketMessenger } from './socket-messenger';
+import { deserialize, serialize } from 'v8';
+import { decompress } from '../../native';
 
 const DAEMON_ENV_SETTINGS = {
   ...process.env,
@@ -125,7 +127,12 @@ export class DaemonClient {
     const messenger = new SocketMessenger(connect(FULL_OS_SOCKET_PATH)).listen(
       (message) => {
         try {
-          const parsedMessage = JSON.parse(message);
+          let parsedMessage;
+          if (typeof message == 'string') {
+            parsedMessage = JSON.parse(message);
+          } else {
+            parsedMessage = deserialize(message);
+          }
           callback(null, parsedMessage);
         } catch (e) {
           callback(e, null);
@@ -273,9 +280,11 @@ export class DaemonClient {
 
   private handleMessage(serializedResult: string) {
     try {
+      let parsedResult;
       performance.mark('json-parse-start');
-      const parsedResult = JSON.parse(serializedResult);
+      parsedResult = JSON.parse(serializedResult);
       performance.mark('json-parse-end');
+
       performance.measure(
         'deserialize daemon response',
         'json-parse-start',
@@ -293,7 +302,7 @@ export class DaemonClient {
       }
     } catch (e) {
       const endOfResponse =
-        serializedResult.length > 300
+        serializedResult.length > 300 && typeof serializedResult === 'string'
           ? serializedResult.substring(serializedResult.length - 300)
           : serializedResult;
       this.currentReject(

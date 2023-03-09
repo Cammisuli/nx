@@ -1,6 +1,8 @@
 import { unlinkSync } from 'fs';
 import { platform } from 'os';
 import { resolve } from 'path';
+import { serialize } from 'v8';
+import { ProjectGraph } from '../config/project-graph';
 import { DAEMON_SOCKET_PATH } from './tmp-dir';
 
 export const isWindows = platform() === 'win32';
@@ -22,7 +24,7 @@ export function killSocketOrPath(): void {
 }
 
 // Include the original stack trace within the serialized error so that the client can show it to the user.
-function serializeError(error: Error | null): string | null {
+export function serializeError(error: Error | null): string | null {
   if (!error) {
     return null;
   }

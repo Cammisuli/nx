@@ -167,7 +167,7 @@ jobs:
            operating_system: freebsd
            version: '13.2'
            architecture: x86-64
-           environment_variables: DEBUG RUSTUP_IO_THREADS
+           environment_variables: DEBUG RUSTUP_IO_THREADS CI
            shell: bash
            run: |
              env
